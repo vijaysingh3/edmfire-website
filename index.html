@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EdmFire – Free Fire Tournament</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fire-red: #ff2200;
+      --fire-orange: #ff6a00;
+      --fire-yellow: #ffb300;
+      --dark-bg: #050505;
+      --dark-card: #0d0d0d;
+      --dark-border: #1a1a1a;
+      --text-light: #f0f0f0;
+      --text-muted: #888;
+      --glow: 0 0 20px rgba(255, 106, 0, 0.5);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    * { cursor: none; }
+    .cursor {
+      width: 18px; height: 18px;
+      border: 2px solid var(--fire-orange);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-dot {
+      width: 5px; height: 5px;
+      background: var(--fire-yellow);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      padding: 18px 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+      backdrop-filter: blur(4px);
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem; font-weight: 900;
+      background: linear-gradient(90deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    .logo span { color: var(--fire-red); -webkit-text-fill-color: var(--fire-red); }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none; letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--fire-orange); }
+    .nav-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; font-size: 0.95rem;
+      padding: 10px 24px;
+      border: 1.5px solid var(--fire-orange);
+      background: transparent; color: var(--fire-orange);
+      letter-spacing: 1.5px;
+      transition: all 0.3s; text-transform: uppercase;
+    }
+    .nav-btn:hover {
+      background: var(--fire-orange); color: #000;
+      box-shadow: var(--glow);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Fire particles background */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 80%, rgba(255,106,0,0.12) 0%, transparent 65%),
+                  radial-gradient(ellipse at 20% 50%, rgba(255,34,0,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 30%, rgba(255,179,0,0.06) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    /* Animated fire lines */
+    .fire-line {
+      position: absolute; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to top, var(--fire-orange), transparent);
+      animation: fireLine 3s ease-in-out infinite;
+      opacity: 0;
+    }
+    .fire-line:nth-child(1)  { left: 10%; height: 200px; animation-delay: 0s;   animation-duration: 2.5s; }
+    .fire-line:nth-child(2)  { left: 20%; height: 150px; animation-delay: 0.5s; animation-duration: 3s; }
+    .fire-line:nth-child(3)  { left: 35%; height: 250px; animation-delay: 1s;   animation-duration: 2s; }
+    .fire-line:nth-child(4)  { left: 50%; height: 180px; animation-delay: 0.3s; animation-duration: 3.5s; }
+    .fire-line:nth-child(5)  { left: 65%; height: 220px; animation-delay: 0.8s; animation-duration: 2.8s; }
+    .fire-line:nth-child(6)  { left: 80%; height: 160px; animation-delay: 1.5s; animation-duration: 2.2s; }
+    .fire-line:nth-child(7)  { left: 90%; height: 200px; animation-delay: 0.2s; animation-duration: 3.2s; }
+
+    @keyframes fireLine {
+      0%   { opacity: 0; transform: scaleY(0) translateY(0); }
+      30%  { opacity: 0.6; }
+      70%  { opacity: 0.4; }
+      100% { opacity: 0; transform: scaleY(1) translateY(-100%); }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--fire-yellow);
+      border: 1px solid rgba(255,179,0,0.3);
+      padding: 6px 18px;
+      margin-bottom: 28px;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: 1;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s 0.2s ease both;
+    }
+    .hero-title .edm {
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-title .fire {
+      background: linear-gradient(135deg, var(--fire-red), var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: block;
+      text-shadow: none;
+      filter: drop-shadow(0 0 30px rgba(255,106,0,0.6));
+    }
+
+    .hero-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--text-muted);
+      margin-top: 20px; max-width: 560px;
+      letter-spacing: 0.5px;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s 0.4s ease both;
+    }
+
+    .hero-cta {
+      display: flex; gap: 16px; margin-top: 44px;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s 0.6s ease both;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+      color: #fff; border: none;
+      letter-spacing: 2px; text-transform: uppercase;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: all 0.3s; text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 0 30px rgba(255,106,0,0.5);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600; font-size: 1.05rem;
+      padding: 16px 40px;
+      border: 1.5px solid rgba(255,106,0,0.4);
+      color: var(--fire-orange); background: transparent;
+      letter-spacing: 2px; text-transform: uppercase;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: all 0.3s; text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,106,0,0.1);
+      border-color: var(--fire-orange);
+    }
+
+    /* Countdown */
+    .countdown-wrap {
+      margin-top: 60px;
+      position: relative; z-index: 1;
+      animation: fadeDown 0.8s 0.8s ease both;
+    }
+    .countdown-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem; letter-spacing: 3px;
+      color: var(--text-muted); text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .countdown {
+      display: flex; gap: 20px; justify-content: center;
+    }
+    .cd-box {
+      text-align: center;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 16px 22px;
+      min-width: 80px;
+      position: relative; overflow: hidden;
+    }
+    .cd-box::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--fire-red), var(--fire-orange));
+    }
+    .cd-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--fire-orange);
+      line-height: 1;
+    }
+    .cd-unit {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem; letter-spacing: 2px;
+      color: var(--text-muted); text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      gap: 0;
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .stat-item {
+      flex: 1; min-width: 150px;
+      padding: 32px 20px; text-align: center;
+      border-right: 1px solid var(--dark-border);
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: rgba(255,106,0,0.05); }
+    .stat-item::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--fire-red), var(--fire-orange));
+      transform: scaleX(0); transition: transform 0.4s;
+    }
+    .stat-item:hover::before { transform: scaleX(1); }
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; letter-spacing: 2px;
+      color: var(--text-muted); text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 90px 5%; }
+    .section-tag {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem; letter-spacing: 4px;
+      color: var(--fire-orange); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .section-desc {
+      color: var(--text-muted); font-size: 1rem;
+      max-width: 540px; line-height: 1.7;
+    }
+
+    /* ── PRIZE SECTION ── */
+    .prize-section { background: var(--dark-bg); }
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px; margin-top: 50px;
+    }
+    .prize-card {
+      border: 1px solid var(--dark-border);
+      padding: 36px 28px; text-align: center;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+      background: var(--dark-card);
+    }
+    .prize-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,106,0,0.4);
+      box-shadow: var(--glow);
+    }
+    .prize-card.featured {
+      border-color: var(--fire-orange);
+      background: linear-gradient(135deg, rgba(255,106,0,0.08), rgba(255,34,0,0.04));
+    }
+    .prize-card.featured::before {
+      content: '🏆 TOP PRIZE';
+      position: absolute; top: 12px; right: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.65rem; letter-spacing: 2px;
+      color: var(--fire-yellow);
+      border: 1px solid rgba(255,179,0,0.3);
+      padding: 3px 8px;
+    }
+    .prize-rank {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; letter-spacing: 3px;
+      color: var(--text-muted); text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .prize-emoji { font-size: 2.5rem; margin-bottom: 14px; display: block; }
+    .prize-amount {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .prize-desc {
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text-muted); font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    /* ── HOW TO PLAY ── */
+    .how-section { background: #080808; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px; margin-top: 50px;
+    }
+    .step-card {
+      padding: 30px 24px;
+      border: 1px solid var(--dark-border);
+      background: var(--dark-card);
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .step-card:hover { border-color: rgba(255,106,0,0.3); }
+    .step-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      background: linear-gradient(135deg, rgba(255,106,0,0.2), rgba(255,106,0,0.05));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1; margin-bottom: 16px;
+    }
+    .step-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text-light); letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .step-desc {
+      font-size: 0.9rem; color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── RULES ── */
+    .rules-section { background: var(--dark-bg); }
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px; margin-top: 50px;
+    }
+    .rule-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px 24px;
+      border: 1px solid var(--dark-border);
+      background: var(--dark-card);
+      transition: border-color 0.3s;
+    }
+    .rule-item:hover { border-color: rgba(255,106,0,0.3); }
+    .rule-icon {
+      font-size: 1.4rem; min-width: 36px;
+      margin-top: 2px;
+    }
+    .rule-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      color: var(--text-light); line-height: 1.5;
+    }
+    .rule-text strong {
+      color: var(--fire-orange); display: block;
+      font-size: 0.75rem; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+
+    /* ── REGISTER ── */
+    .register-section {
+      background: #080808;
+      text-align: center;
+    }
+    .register-inner {
+      max-width: 640px; margin: 0 auto;
+    }
+    .register-section .section-title { margin-bottom: 12px; }
+    .register-form {
+      margin-top: 44px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .form-row { display: flex; gap: 14px; }
+    .form-input {
+      flex: 1;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      color: var(--text-light);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; font-weight: 500;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    .form-input::placeholder { color: var(--text-muted); }
+    .form-input:focus { border-color: var(--fire-orange); }
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+    .btn-submit {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+      padding: 18px 40px;
+      background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+      color: #fff; border: none;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-top: 8px;
+      clip-path: polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%);
+      transition: all 0.3s; width: 100%;
+    }
+    .btn-submit:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 40px rgba(255,106,0,0.4);
+      transform: translateY(-2px);
+    }
+    .form-note {
+      font-size: 0.8rem; color: var(--text-muted);
+      margin-top: 12px; font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 5%;
+      border-top: 1px solid var(--dark-border);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: gap;
+      gap: 20px;
+    }
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem; font-weight: 900;
+      background: linear-gradient(90deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .footer-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    .social-links { display: flex; gap: 14px; }
+    .social-link {
+      width: 38px; height: 38px;
+      border: 1px solid var(--dark-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); text-decoration: none;
+      font-size: 1rem; transition: all 0.3s;
+    }
+    .social-link:hover {
+      border-color: var(--fire-orange);
+      color: var(--fire-orange);
+      box-shadow: var(--glow);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .form-row { flex-direction: column; }
+      footer { flex-direction: column; text-align: center; }
+      .countdown { gap: 10px; }
+      .cd-box { min-width: 65px; padding: 12px 14px; }
+      .cd-num { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- ── NAVBAR ── -->
+  <nav>
+    <div class="logo">Edm<span>Fire</span></div>
+    <ul class="nav-links">
+      <li><a href="#prize">Prizes</a></li>
+      <li><a href="#how">How To Play</a></li>
+      <li><a href="#rules">Rules</a></li>
+      <li><a href="#register">Register</a></li>
+    </ul>
+    <button class="nav-btn" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
+      Join Now
+    </button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+    <div class="fire-line"></div>
+
+    <div class="hero-badge">🔥 Season 1 · 2025 · Free Fire Tournament</div>
+
+    <h1 class="hero-title">
+      <span class="edm">EDM</span>
+      <span class="fire">FIRE</span>
+    </h1>
+
+    <p class="hero-sub">
+      Garena Free Fire ka sabse bada tournament. Register karo, team banao, aur champion bano.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#register" class="btn-primary">🔥 Register Now</a>
+      <a href="#how" class="btn-secondary">How To Play</a>
+    </div>
+
+    <div class="countdown-wrap">
+      <div class="countdown-label">Tournament Starts In</div>
+      <div class="countdown">
+        <div class="cd-box">
+          <div class="cd-num" id="days">00</div>
+          <div class="cd-unit">Days</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="hours">00</div>
+          <div class="cd-unit">Hours</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="mins">00</div>
+          <div class="cd-unit">Mins</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="secs">00</div>
+          <div class="cd-unit">Secs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stat-item reveal">
+      <div class="stat-num">₹50,000</div>
+      <div class="stat-label">Prize Pool</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Teams</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">48</div>
+      <div class="stat-label">Slots Left</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Matches</div>
+    </div>
+  </div>
+
+  <!-- ── PRIZE SECTION ── -->
+  <section class="prize-section" id="prize">
+    <div class="section-tag">💰 Prize Pool</div>
+    <h2 class="section-title">Win <span>Big Rewards</span></h2>
+    <p class="section-desc">Top teams ko milega cash prize + exclusive in-game rewards. Booyah karo aur jeet lo!</p>
+
+    <div class="prize-grid">
+      <div class="prize-card featured reveal">
+        <div class="prize-rank">1st Place</div>
+        <span class="prize-emoji">🥇</span>
+        <div class="prize-amount">₹25,000</div>
+        <div class="prize-desc">Cash + Exclusive Title + Diamond Bundle</div>
+      </div>
+      <div class="prize-card reveal">
+        <div class="prize-rank">2nd Place</div>
+        <span class="prize-emoji">🥈</span>
+        <div class="prize-amount">₹15,000</div>
+        <div class="prize-desc">Cash + Silver Title + Weapon Skin</div>
+      </div>
+      <div class="prize-card reveal">
+        <div class="prize-rank">3rd Place</div>
+        <span class="prize-emoji">🥉</span>
+        <div class="prize-amount">₹7,500</div>
+        <div class="prize-desc">Cash + Bronze Title + Character Skin</div>
+      </div>
+      <div class="prize-card reveal">
+        <div class="prize-rank">MVP Award</div>
+        <span class="prize-emoji">⭐</span>
+        <div class="prize-amount">₹2,500</div>
+        <div class="prize-desc">Best Player + Special Badge</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW TO PLAY ── -->
+  <section class="how-section" id="how">
+    <div class="section-tag">🎮 How To Play</div>
+    <h2 class="section-title">Kaise Karein <span>Join</span></h2>
+    <p class="section-desc">4 simple steps mein apni team register karo aur tournament mein shamil ho jao.</p>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Register Karo</div>
+        <div class="step-desc">Apna Free Fire UID aur team details form mein bharo. Registration bilkul free hai.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">02</div>
+        <div class="step-title">Team Banao</div>
+        <div class="step-desc">4 member ki squad banao. Captain ka naam aur UID compulsory hai.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">03</div>
+        <div class="step-title">Room Join Karo</div>
+        <div class="step-desc">Match se pehle Room ID aur Password WhatsApp group mein share kiya jayega.</div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">04</div>
+        <div class="step-title">Booyah Lo!</div>
+        <div class="step-desc">Match khelo, points kamao aur leaderboard mein apni position secure karo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RULES ── -->
+  <section class="rules-section" id="rules">
+    <div class="section-tag">📋 Rules</div>
+    <h2 class="section-title">Tournament <span>Rules</span></h2>
+    <p class="section-desc">Sabhi players in rules ko follow karna zaroori hai. Rule violation pe team disqualify hogi.</p>
+
+    <div class="rules-grid">
+      <div class="rule-item reveal">
+        <div class="rule-icon">👥</div>
+        <div class="rule-text"><strong>Team Size</strong>Har team mein exactly 4 players hone chahiye.</div>
+      </div>
+      <div class="rule-item reveal">
+        <div class="rule-icon">🚫</div>
+        <div class="rule-text"><strong>No Hacking</strong>Koi bhi cheating tool ya hack use karna strictly banned hai.</div>
+      </div>
+      <div class="rule-item reveal">
+        <div class="rule-icon">⏰</div>
+        <div class="rule-text"><strong>Punctuality</strong>Match time se 10 min pehle room join karna compulsory hai.</div>
+      </div>
+      <div class="rule-item reveal">
+        <div class="rule-icon">🎮</div>
+        <div class="rule-text"><strong>Game Mode</strong>Classic mode · Bermuda map · Squad format only.</div>
+      </div>
+      <div class="rule-item reveal">
+        <div class="rule-icon">📷</div>
+        <div class="rule-text"><strong>Screenshot</strong>Match result ka screenshot submit karna zaroori hai.</div>
+      </div>
+      <div class="rule-item reveal">
+        <div class="rule-icon">🏆</div>
+        <div class="rule-text"><strong>Points System</strong>Kill = 1pt · Booyah = 10pt · Top 3 finish = 5pt.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REGISTER ── -->
+  <section class="register-section" id="register">
+    <div class="register-inner">
+      <div class="section-tag">📝 Registration</div>
+      <h2 class="section-title">Abhi <span>Register Karo</span></h2>
+      <p class="section-desc" style="margin: 0 auto;">Limited slots available hain. Jaldi karo bhai, seats bhar rahi hain!</p>
+
+      <form class="register-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Captain ka Naam" required />
+          <input type="text" class="form-input" placeholder="Free Fire UID" required />
+        </div>
+        <input type="text" class="form-input" placeholder="Team Name" required />
+        <input type="tel" class="form-input" placeholder="WhatsApp Number" required />
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Member 2 UID" />
+          <input type="text" class="form-input" placeholder="Member 3 UID" />
+        </div>
+        <input type="text" class="form-input" placeholder="Member 4 UID" />
+        <select class="form-input form-select">
+          <option value="" disabled selected>Server Select Karo</option>
+          <option>India (IND)</option>
+          <option>Brazil (BR)</option>
+          <option>MENA</option>
+          <option>SEA</option>
+        </select>
+        <button type="submit" class="btn-submit">🔥 Register My Squad</button>
+        <p class="form-note">✅ Registration free hai · WhatsApp pe details milegi · Rules pehle zaroor padho</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-logo">EdmFire</div>
+    <div class="footer-text">© 2025 EdmFire Tournament · All Rights Reserved</div>
+    <div class="social-links">
+      <a href="#" class="social-link">📱</a>
+      <a href="#" class="social-link">💬</a>
+      <a href="#" class="social-link">📸</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const dot = document.getElementById('cursorDot');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX - 9 + 'px';
+      cursor.style.top  = e.clientY - 9 + 'px';
+      dot.style.left    = e.clientX - 2.5 + 'px';
+      dot.style.top     = e.clientY - 2.5 + 'px';
+    });
+
+    // ── Countdown ──
+    const target = new Date('2025-08-15T18:00:00');
+    function updateCountdown() {
+      const now  = new Date();
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById('days').textContent  = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('mins').textContent  = '00';
+        document.getElementById('secs').textContent  = '00';
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('days').textContent  = String(d).padStart(2,'0');
+      document.getElementById('hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('mins').textContent  = String(m).padStart(2,'0');
+      document.getElementById('secs').textContent  = String(s).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ── Scroll Reveal ──
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => obs.observe(r));
+
+    // ── Form Submit ──
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      btn.textContent = '✅ Registration Successful! WhatsApp check karo.';
+      btn.style.background = 'linear-gradient(135deg, #00c851, #007e33)';
+      btn.disabled = true;
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>
