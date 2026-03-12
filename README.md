@@ -1,5 +1,6 @@
 📁 Total Files — 14 files:
-
+ ---
+  ------------------------------------------------
 edmfire-website/
 ├── index.html              ← Main Landing Page
 ├── css/style.css           ← Poora styling
@@ -17,7 +18,7 @@ edmfire-website/
     ├── blogs.html
     ├── features.html
     └── faq.html
-
+ ------------------------------------------------
 
     ------------------------------------------------
     Theme     → Dark + Fire Orange (same as abhi)
@@ -25,7 +26,7 @@ Font      → Orbitron (headings) + Rajdhani
 Colors    → Black bg, Orange accent, White text
 Style     → Gaming + Professional mix
 Mobile    → Fully responsive
-__________________________________
+ ------------------------------------------------
 
 edmfire-website/
 │
@@ -55,8 +56,7 @@ edmfire-website/
     ├── app-screenshot-1.png
     └── ...
 
-___________________________________________________________Structure___________________
-
+ ------------------------------------------------
 ┌─────────────────────────────────────┐
 │  NAVBAR (Fixed Top)                 │
 │  [Logo] [EdmFire]  [Home][Privacy]  │
