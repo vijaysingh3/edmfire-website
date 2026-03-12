@@ -34,7 +34,7 @@ function injectNavbar(isRoot = false) {
   const html = `
   <nav class="navbar">
     <a class="nav-brand" href="${prefix}index.html">
-      <div class="nav-logo-placeholder">EF</div>
+      <img class="nav-logo-img" src="images/edmlogo.png" alt="EdmFire"/>
       <div>
         <div class="nav-title">EdmFire</div>
         <div class="nav-subtitle">Free Fire Tournament</div>
