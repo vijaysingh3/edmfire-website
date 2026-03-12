@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Referral System — EdmFire</title>
+  <meta name="description" content="EdmFire Referral System — Dosto ko invite karo aur bonus coins pao!"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .ref-hero {
+      text-align: center;
+      padding: 40px 0 50px;
+      border-bottom: 1px solid var(--dark-border);
+      margin-bottom: 50px;
+    }
+    .ref-hero-badge {
+      display: inline-block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--fire-yellow);
+      border: 1px solid rgba(255,179,0,.3);
+      padding: 5px 16px; margin-bottom: 18px;
+    }
+    .ref-hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 900;
+      line-height: 1.2; margin-bottom: 14px;
+    }
+    .ref-hero-title span {
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .ref-hero-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 500px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* How it works steps */
+    .ref-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px; margin-bottom: 50px;
+    }
+    .ref-step {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 28px 22px; text-align: center;
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+    .ref-step:hover {
+      border-color: rgba(255,106,0,.35);
+      transform: translateY(-5px);
+    }
+    .ref-step::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--fire-red), var(--fire-orange));
+      transform: scaleX(0); transition: transform .4s;
+    }
+    .ref-step:hover::before { transform: scaleX(1); }
+    .ref-step-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: rgba(255,106,0,.2); margin-bottom: 12px;
+    }
+    .ref-step-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+    .ref-step-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text-light); margin-bottom: 8px;
+    }
+    .ref-step-desc {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .9rem; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* Reward cards */
+    .ref-rewards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin: 30px 0 50px;
+    }
+    .ref-reward-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 26px 20px; text-align: center;
+      transition: border-color .3s;
+    }
+    .ref-reward-card.featured {
+      border-color: rgba(255,106,0,.4);
+      background: linear-gradient(135deg, rgba(255,106,0,.07), rgba(255,34,0,.03));
+    }
+    .ref-reward-card:hover { border-color: rgba(255,106,0,.4); }
+    .ref-reward-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+    .ref-reward-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .72rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--fire-orange); margin-bottom: 8px;
+    }
+    .ref-reward-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .ref-reward-desc {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .85rem; color: var(--text-muted); margin-top: 8px;
+    }
+
+    /* Rules */
+    .ref-rule-list { margin: 24px 0; }
+    .ref-rule-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 18px; margin-bottom: 10px;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      transition: border-color .3s;
+    }
+    .ref-rule-item:hover { border-color: rgba(255,106,0,.25); }
+    .ref-rule-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--fire-orange); flex-shrink: 0; margin-top: 6px;
+    }
+    .ref-rule-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .95rem; color: #888; line-height: 1.6;
+    }
+
+    .section-heading {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--fire-orange); letter-spacing: 1px;
+      margin: 40px 0 18px;
+    }
+    .highlight-box {
+      border: 1px solid rgba(255,106,0,.2);
+      background: rgba(255,106,0,.04);
+      padding: 18px 22px; margin: 24px 0;
+    }
+    .highlight-box p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .92rem; color: #888; line-height: 1.7; margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-content-bar">
+    <div class="page-breadcrumb">
+      <a href="../index.html" style="color:inherit;text-decoration:none;">Home</a>
+      <span>›</span>
+    </div>
+    <div class="page-title-bar">Referral System</div>
+  </div>
+
+  <div class="inner-page">
+
+    <!-- Hero -->
+    <div class="ref-hero">
+      <div class="ref-hero-badge">🎁 Earn Bonus Coins</div>
+      <h1 class="ref-hero-title">
+        Dosto Ko Invite Karo<br/>
+        <span>Bonus Coins Pao!</span>
+      </h1>
+      <p class="ref-hero-sub">
+        EdmFire ka Referral System use karo — apne dosto ko invite karo, woh join karein aur tum dono ko bonus coins milenge!
+      </p>
+    </div>
+
+    <!-- How it works -->
+    <div class="section-heading">⚙️ Referral Kaise Kaam Karta Hai</div>
+    <div class="ref-steps reveal">
+      <div class="ref-step">
+        <div class="ref-step-num">01</div>
+        <span class="ref-step-icon">📱</span>
+        <div class="ref-step-title">App Open Karo</div>
+        <div class="ref-step-desc">EdmFire app mein apne account mein login karo.</div>
+      </div>
+      <div class="ref-step">
+        <div class="ref-step-num">02</div>
+        <span class="ref-step-icon">🔗</span>
+        <div class="ref-step-title">Referral Code Lo</div>
+        <div class="ref-step-desc">Profile section mein jaao — apna unique referral code copy karo.</div>
+      </div>
+      <div class="ref-step">
+        <div class="ref-step-num">03</div>
+        <span class="ref-step-icon">📤</span>
+        <div class="ref-step-title">Dosto Ko Share Karo</div>
+        <div class="ref-step-desc">Apna referral code ya link dosto ko WhatsApp, Instagram ya kisi bhi platform pe share karo.</div>
+      </div>
+      <div class="ref-step">
+        <div class="ref-step-num">04</div>
+        <span class="ref-step-icon">✅</span>
+        <div class="ref-step-title">Dost Join Kare</div>
+        <div class="ref-step-desc">Tera dost tumhara referral code use karke account banata hai aur KYC complete karta hai.</div>
+      </div>
+      <div class="ref-step">
+        <div class="ref-step-num">05</div>
+        <span class="ref-step-icon">🪙</span>
+        <div class="ref-step-title">Bonus Coins Milenge</div>
+        <div class="ref-step-desc">Dost ke join hone ke baad tum dono ke wallet mein bonus coins automatically credit ho jaate hain!</div>
+      </div>
+    </div>
+
+    <!-- Rewards -->
+    <div class="section-heading">🎁 Referral Rewards</div>
+    <div class="ref-rewards reveal">
+      <div class="ref-reward-card featured">
+        <span class="ref-reward-icon">👤</span>
+        <div class="ref-reward-label">Referrer Ko (Tumhe)</div>
+        <div class="ref-reward-value">Bonus Coins</div>
+        <div class="ref-reward-desc">Har successful referral pe tumhe bonus coins milenge wallet mein</div>
+      </div>
+      <div class="ref-reward-card">
+        <span class="ref-reward-icon">🆕</span>
+        <div class="ref-reward-label">New User Ko (Dost Ko)</div>
+        <div class="ref-reward-value">Welcome Coins</div>
+        <div class="ref-reward-desc">Referral code use karke join karne wale dost ko bhi welcome bonus milega</div>
+      </div>
+      <div class="ref-reward-card">
+        <span class="ref-reward-icon">♾️</span>
+        <div class="ref-reward-label">Limit</div>
+        <div class="ref-reward-value">Unlimited</div>
+        <div class="ref-reward-desc">Jitne chahein utne dosto ko invite karo — koi limit nahi!</div>
+      </div>
+    </div>
+
+    <!-- Rules -->
+    <div class="section-heading">📋 Referral Rules</div>
+    <div class="ref-rule-list reveal">
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">Referral bonus tabhi milega jab referred user apna KYC (Free Fire UID verification) complete kare.</div></div>
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">Ek referral code sirf ek baar hi use kiya ja sakta hai per account.</div></div>
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">Self-referral allowed nahi hai — apna khud ka code use karke bonus nahi milega.</div></div>
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">Fake accounts banake referral karne par dono accounts permanently ban ho sakte hain.</div></div>
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">Referral coins sirf in-app wallet mein credited hote hain aur tournament entry ke liye use ho sakte hain.</div></div>
+      <div class="ref-rule-item"><div class="ref-rule-dot"></div><div class="ref-rule-text">EDMFire Technologies referral program ko kisi bhi waqt modify ya band karne ka adhikar rakhta hai.</div></div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-heading">❓ Referral FAQ</div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question">Referral code kahan milega? <span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>EdmFire app mein apne Profile section mein jaao — wahan tumhara unique referral code aur share button milega.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Bonus coins kab milenge? <span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Jab tumhara referred dost apna account banata hai aur KYC (Free Fire UID verification) complete karta hai — tab dono ko coins credit hote hain.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Kitne log refer kar sakte hain? <span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Koi limit nahi! Jitne chahein utne dosto ko invite karo aur har successful referral pe bonus pao.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Referral coins se kya kar sakte hain? <span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Referral coins directly in-app wallet mein add hote hain. Inhe tournament entry ke liye use kar sakte ho bilkul normal coins ki tarah.</p></div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p>💡 Referral feature abhi app mein available hai — apne dosto ko aaj hi invite karo aur bonus coins kamao! Kisi bhi problem ke liye support se contact karo: <strong style="color:var(--fire-orange);">edmfiresupport@gmail.com</strong></p>
+    </div>
+
+  </div>
+
+  <script src="../js/components.js"></script>
+  <script>injectNavbar(false); injectFooter(false);</script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

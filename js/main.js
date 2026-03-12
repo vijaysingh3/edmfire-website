@@ -38,6 +38,76 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isHome) contentBar.classList.add('visible');
   }
 
+  // ══════════════════════════════════════════════
+  //  DOWNLOAD BUTTON — Progress Animation
+  // ══════════════════════════════════════════════
+  function initDownloadButtons() {
+    document.querySelectorAll('.btn-download').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        // Agar already processing ho toh dobara click block karo
+        if (btn.classList.contains('downloading')) return;
+
+        e.preventDefault(); // pehle default rok do
+        const originalHTML = btn.innerHTML;
+        btn.classList.add('downloading');
+
+        // Progress bar inject karo button ke andar
+        btn.innerHTML = `
+          <div class="dl-progress-wrap">
+            <div class="dl-progress-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 3v13M5 14l7 7 7-7"/><path d="M3 21h18"/>
+              </svg>
+              <span id="dlStatusText">Connecting...</span>
+            </div>
+            <div class="dl-bar-track">
+              <div class="dl-bar-fill" id="dlBarFill"></div>
+            </div>
+          </div>`;
+
+        const fillEl   = btn.querySelector('#dlBarFill');
+        const textEl   = btn.querySelector('#dlStatusText');
+        let progress   = 0;
+
+        // Stages
+        const stages = [
+          { pct: 15,  label: 'Connecting...',       delay: 300  },
+          { pct: 35,  label: 'Starting Download...', delay: 600  },
+          { pct: 60,  label: 'Downloading...',       delay: 900  },
+          { pct: 85,  label: 'Almost Done...',       delay: 1400 },
+          { pct: 100, label: 'Download Started! ✅', delay: 1800 },
+        ];
+
+        stages.forEach(s => {
+          setTimeout(() => {
+            if (fillEl) fillEl.style.width = s.pct + '%';
+            if (textEl) textEl.textContent = s.label;
+
+            // 100% pe actual download trigger karo
+            if (s.pct === 100) {
+              // Real download start karo
+              const link    = document.createElement('a');
+              link.href     = typeof APK_LINK !== 'undefined' ? APK_LINK : btn.dataset.href || '#';
+              link.download = 'EdmFire-v1.0-release.apk';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+
+              // 2.5s baad button reset karo
+              setTimeout(() => {
+                btn.classList.remove('downloading');
+                btn.innerHTML = originalHTML;
+              }, 2500);
+            }
+          }, s.delay);
+        });
+      });
+    });
+  }
+
+  // Navbar inject ke baad bhi buttons init karo
+  setTimeout(initDownloadButtons, 100);
+
   // ── SEARCH SYSTEM ──
   const searchOverlay = document.getElementById('searchOverlay');
   const searchInput   = document.getElementById('searchInput');
@@ -57,17 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchResults) searchResults.innerHTML = '';
   }
 
-  if (navSearchBtn)  navSearchBtn.addEventListener('click', openSearch);
-  if (searchClose)   searchClose.addEventListener('click', closeSearch);
-
-  // Close on overlay background click
+  if (navSearchBtn) navSearchBtn.addEventListener('click', openSearch);
+  if (searchClose)  searchClose.addEventListener('click', closeSearch);
   if (searchOverlay) {
     searchOverlay.addEventListener('click', e => {
       if (e.target === searchOverlay) closeSearch();
     });
   }
 
-  // Keyboard shortcut Ctrl+K or /
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement.tagName !== 'INPUT')) {
       e.preventDefault(); openSearch();
@@ -75,13 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeSearch();
   });
 
-  // Search logic
   if (searchInput) {
     searchInput.addEventListener('input', () => {
       const q = searchInput.value.trim().toLowerCase();
       if (!q) { searchResults.innerHTML = ''; return; }
 
-      // Determine if we are in root or pages/ subfolder
       const isRoot = !window.location.pathname.includes('/pages/');
       const prefix = isRoot ? '' : '../';
 
