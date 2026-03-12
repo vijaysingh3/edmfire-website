@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How To Use — EdmFire</title>
+  <meta name="description" content="EdmFire How To Use"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .ip-content { margin-top:32px; }
+    .ip-content h2 {
+      font-family:'Orbitron',sans-serif;
+      font-size:1.1rem; font-weight:700;
+      color:var(--fire-orange);
+      margin:32px 0 10px;
+      letter-spacing:1px;
+    }
+    .ip-content h3 {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:700;
+      color:var(--text-light);
+      margin:20px 0 8px; letter-spacing:.5px;
+    }
+    .ip-content p {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.97rem; color:#888;
+      line-height:1.8; margin-bottom:12px;
+    }
+    .ip-content ul, .ip-content ol {
+      padding-left:20px; margin-bottom:14px;
+    }
+    .ip-content li {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.95rem; color:#888;
+      line-height:1.8; margin-bottom:6px;
+    }
+    .ip-content li::marker { color:var(--fire-orange); }
+    .ip-content .highlight-box {
+      border:1px solid rgba(255,106,0,0.2);
+      background:rgba(255,106,0,0.04);
+      padding:18px 22px; margin:20px 0;
+    }
+    .ip-content .highlight-box p { color:#aaa; margin:0; }
+    .ip-content .contact-card {
+      display:flex; flex-wrap:wrap; gap:16px; margin:24px 0;
+    }
+    .ip-content .c-card {
+      flex:1; min-width:200px;
+      border:1px solid var(--dark-border);
+      background:var(--dark-card);
+      padding:22px 20px;
+      transition:border-color .3s;
+    }
+    .ip-content .c-card:hover { border-color:rgba(255,106,0,.35); }
+    .ip-content .c-icon { font-size:1.6rem; margin-bottom:10px; display:block; }
+    .ip-content .c-label {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.72rem; letter-spacing:2.5px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:6px;
+    }
+    .ip-content .c-value {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:600; color:var(--text-light);
+    }
+    .ip-content .c-value a {
+      color:var(--text-light); text-decoration:none;
+      transition:color .25s;
+    }
+    .ip-content .c-value a:hover { color:var(--fire-orange); }
+    .step-list { margin:20px 0; }
+    .step-list-item {
+      display:flex; gap:18px; align-items:flex-start;
+      padding:16px 0; border-bottom:1px solid var(--dark-border);
+    }
+    .step-list-item:last-child { border-bottom:none; }
+    .sli-num {
+      font-family:'Orbitron',sans-serif;
+      font-size:1.5rem; font-weight:900;
+      color:rgba(255,106,0,.25); min-width:40px; line-height:1;
+    }
+    .sli-body { flex:1; }
+    .sli-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:5px;
+    }
+    .sli-desc {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.92rem; color:#777; line-height:1.6;
+    }
+    .feature-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:24px 0; }
+    .fl-item {
+      border:1px solid var(--dark-border);
+      background:var(--dark-card);
+      padding:22px 20px;
+      transition:border-color .3s, transform .3s;
+    }
+    .fl-item:hover { border-color:rgba(255,106,0,.35); transform:translateY(-4px); }
+    .fl-icon { font-size:1.8rem; margin-bottom:10px; display:block; }
+    .fl-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:700;
+      color:var(--text-light); margin-bottom:6px;
+    }
+    .fl-desc { font-family:'Rajdhani',sans-serif; font-size:.88rem; color:#777; line-height:1.6; }
+    .faq-page-list { margin:24px 0; }
+    .blog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin:24px 0; }
+    .blog-card {
+      border:1px solid var(--dark-border); background:var(--dark-card);
+      padding:24px 20px; transition:border-color .3s;
+    }
+    .blog-card:hover { border-color:rgba(255,106,0,.3); }
+    .blog-tag {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.68rem; letter-spacing:2px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:10px;
+    }
+    .blog-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:8px;
+    }
+    .blog-desc { font-size:.88rem; color:#777; line-height:1.6; font-family:'Rajdhani',sans-serif; }
+    .coming-badge {
+      display:inline-block;
+      font-family:'Rajdhani',sans-serif;
+      font-size:.68rem; letter-spacing:2px;
+      color:#555; border:1px solid #222;
+      padding:3px 10px; margin-top:10px; text-transform:uppercase;
+    }
+    .rule-card {
+      border:1px solid var(--dark-border); background:var(--dark-card);
+      padding:22px 20px; margin-bottom:12px;
+      transition:border-color .3s;
+    }
+    .rule-card:hover { border-color:rgba(255,106,0,.3); }
+    .rule-num {
+      font-family:'Orbitron',sans-serif;
+      font-size:.7rem; letter-spacing:2px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:8px;
+    }
+    .rule-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:6px;
+    }
+    .rule-desc { font-family:'Rajdhani',sans-serif; font-size:.9rem; color:#777; line-height:1.6; }
+    .last-updated {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.78rem; letter-spacing:1.5px;
+      color:#444; text-transform:uppercase; margin-bottom:24px;
+    }
+    .disclaimer-box {
+      border:1px solid rgba(255,179,0,.2);
+      background:rgba(255,179,0,.03);
+      padding:18px 22px; margin-top:32px;
+    }
+    .disclaimer-box p {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.85rem; color:#555; line-height:1.7; margin:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-content-bar">
+    <div class="page-breadcrumb"><a href="../index.html" style="color:inherit;text-decoration:none;">Home</a> <span>›</span></div>
+    <div class="page-title-bar">How To Use</div>
+  </div>
+  <div class="inner-page">
+    <div class="inner-page-title">📖 How To Use</div>
+    <div class="inner-divider"></div>
+    <div class="ip-content">
+
+      <h2>Step by Step Guide</h2>
+      <p>EdmFire use karna bahut aasaan hai — neeche diye gaye steps follow karo aur apna pehla tournament join karo!</p>
+
+      <div class="step-list">
+        <div class="step-list-item"><div class="sli-num">01</div><div class="sli-body"><div class="sli-title">Create an Account</div><div class="sli-desc">EdmFire app kholo aur Gmail account + password se sign up karo.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">02</div><div class="sli-body"><div class="sli-title">Login to the App</div><div class="sli-desc">Registration ke baad same email aur password se login karo.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">03</div><div class="sli-body"><div class="sli-title">Verify Free Fire UID (KYC)</div><div class="sli-desc">Profile section mein jao → KYC button click karo → apna real Free Fire Max UID enter karo → India select karo → verify karo.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">04</div><div class="sli-body"><div class="sli-title">Add Coins to Wallet</div><div class="sli-desc">UPI apps jaise PhonePe ya Paytm se virtual coins kharido. Payment ke baad UTR/Bank Ref. No. app mein verify karo.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">05</div><div class="sli-body"><div class="sli-title">Join a Tournament</div><div class="sli-desc">Available tournaments browse karo — Solo, Duo ya Squad — wallet coins se entry do.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">06</div><div class="sli-body"><div class="sli-title">Receive Room Details</div><div class="sli-desc">Match shuru hone se pehle Room ID aur Password app mein display hoga.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">07</div><div class="sli-body"><div class="sli-title">Play the Match</div><div class="sli-desc">Free Fire Max mein room join karo aur tournament mein participate karo.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">08</div><div class="sli-body"><div class="sli-title">Win Rewards</div><div class="sli-desc">Winning players ke rewards in-app wallet mein credit kiye jaate hain.</div></div></div>
+        <div class="step-list-item"><div class="sli-num">09</div><div class="sli-body"><div class="sli-title">Withdraw Rewards</div><div class="sli-desc">Wallet balance ko UPI ya Redeem Code ke through withdraw kar sakte ho.</div></div></div>
+      </div>
+
+      <div class="highlight-box"><p>💡 Tip: KYC complete karne ke baad hi tournament join kar sakte ho — pehle KYC zaroor karo!</p></div>
+
+    </div>
+  </div>
+
+  <script src="../js/components.js"></script>
+  <script>injectNavbar(false); injectFooter(false);</script>
+  <script src="../js/main.js"></script>
+
+</body>
+</html>
