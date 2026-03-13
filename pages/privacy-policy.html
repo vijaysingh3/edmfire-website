@@ -3,47 +3,253 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Privacy Policy – EDM Fire Free Fire Tournament App | EDMFire Technologies</title>
-  <meta name="description" content="EDM Fire Privacy Policy. Jaano ki hum kaunsa data collect karte hain aur use kaise protect karte hain. EDMFire Technologies India."/>
-  <meta name="robots" content="index, follow"/>
-  <meta name="author" content="EDMFire Technologies"/>
-  <link rel="canonical" href="https://edmfire.in/pages/privacy-policy.html"/>
-  <meta property="og:type"        content="website"/>
-  <meta property="og:url"         content="https://edmfire.in/pages/privacy-policy.html"/>
-  <meta property="og:title"       content="Privacy Policy – EDM Fire Free Fire Tournament App | EDMFire Technologies"/>
-  <meta property="og:description" content="EDM Fire Privacy Policy. Jaano ki hum kaunsa data collect karte hain aur use kaise protect karte hain. EDMFire Technologies India."/>
-  <meta property="og:image"       content="https://edmfire.in/images/edmlogo.png"/>
-  <meta property="og:site_name"   content="EDM Fire"/>
-  <meta name="twitter:card"       content="summary_large_image"/>
-  <meta name="twitter:title"      content="Privacy Policy – EDM Fire Free Fire Tournament App | EDMFire Technologies"/>
-  <meta name="twitter:description" content="EDM Fire Privacy Policy. Jaano ki hum kaunsa data collect karte hain aur use kaise protect karte hain. EDMFire Technologies India."/>
-  <meta name="twitter:image"      content="https://edmfire.in/images/edmlogo.png"/>
+  <title>Privacy Policy — EdmFire</title>
+  <meta name="description" content="EdmFire Privacy Policy"/>
   <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .ip-content { margin-top:32px; }
+    .ip-content h2 {
+      font-family:'Orbitron',sans-serif;
+      font-size:1.1rem; font-weight:700;
+      color:var(--fire-orange);
+      margin:32px 0 10px;
+      letter-spacing:1px;
+    }
+    .ip-content h3 {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:700;
+      color:var(--text-light);
+      margin:20px 0 8px; letter-spacing:.5px;
+    }
+    .ip-content p {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.97rem; color:#888;
+      line-height:1.8; margin-bottom:12px;
+    }
+    .ip-content ul, .ip-content ol {
+      padding-left:20px; margin-bottom:14px;
+    }
+    .ip-content li {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.95rem; color:#888;
+      line-height:1.8; margin-bottom:6px;
+    }
+    .ip-content li::marker { color:var(--fire-orange); }
+    .ip-content .highlight-box {
+      border:1px solid rgba(255,106,0,0.2);
+      background:rgba(255,106,0,0.04);
+      padding:18px 22px; margin:20px 0;
+    }
+    .ip-content .highlight-box p { color:#aaa; margin:0; }
+    .ip-content .contact-card {
+      display:flex; flex-wrap:wrap; gap:16px; margin:24px 0;
+    }
+    .ip-content .c-card {
+      flex:1; min-width:200px;
+      border:1px solid var(--dark-border);
+      background:var(--dark-card);
+      padding:22px 20px;
+      transition:border-color .3s;
+    }
+    .ip-content .c-card:hover { border-color:rgba(255,106,0,.35); }
+    .ip-content .c-icon { font-size:1.6rem; margin-bottom:10px; display:block; }
+    .ip-content .c-label {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.72rem; letter-spacing:2.5px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:6px;
+    }
+    .ip-content .c-value {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:600; color:var(--text-light);
+    }
+    .ip-content .c-value a {
+      color:var(--text-light); text-decoration:none;
+      transition:color .25s;
+    }
+    .ip-content .c-value a:hover { color:var(--fire-orange); }
+    .step-list { margin:20px 0; }
+    .step-list-item {
+      display:flex; gap:18px; align-items:flex-start;
+      padding:16px 0; border-bottom:1px solid var(--dark-border);
+    }
+    .step-list-item:last-child { border-bottom:none; }
+    .sli-num {
+      font-family:'Orbitron',sans-serif;
+      font-size:1.5rem; font-weight:900;
+      color:rgba(255,106,0,.25); min-width:40px; line-height:1;
+    }
+    .sli-body { flex:1; }
+    .sli-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:5px;
+    }
+    .sli-desc {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.92rem; color:#777; line-height:1.6;
+    }
+    .feature-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:24px 0; }
+    .fl-item {
+      border:1px solid var(--dark-border);
+      background:var(--dark-card);
+      padding:22px 20px;
+      transition:border-color .3s, transform .3s;
+    }
+    .fl-item:hover { border-color:rgba(255,106,0,.35); transform:translateY(-4px); }
+    .fl-icon { font-size:1.8rem; margin-bottom:10px; display:block; }
+    .fl-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1rem; font-weight:700;
+      color:var(--text-light); margin-bottom:6px;
+    }
+    .fl-desc { font-family:'Rajdhani',sans-serif; font-size:.88rem; color:#777; line-height:1.6; }
+    .faq-page-list { margin:24px 0; }
+    .blog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; margin:24px 0; }
+    .blog-card {
+      border:1px solid var(--dark-border); background:var(--dark-card);
+      padding:24px 20px; transition:border-color .3s;
+    }
+    .blog-card:hover { border-color:rgba(255,106,0,.3); }
+    .blog-tag {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.68rem; letter-spacing:2px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:10px;
+    }
+    .blog-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:8px;
+    }
+    .blog-desc { font-size:.88rem; color:#777; line-height:1.6; font-family:'Rajdhani',sans-serif; }
+    .coming-badge {
+      display:inline-block;
+      font-family:'Rajdhani',sans-serif;
+      font-size:.68rem; letter-spacing:2px;
+      color:#555; border:1px solid #222;
+      padding:3px 10px; margin-top:10px; text-transform:uppercase;
+    }
+    .rule-card {
+      border:1px solid var(--dark-border); background:var(--dark-card);
+      padding:22px 20px; margin-bottom:12px;
+      transition:border-color .3s;
+    }
+    .rule-card:hover { border-color:rgba(255,106,0,.3); }
+    .rule-num {
+      font-family:'Orbitron',sans-serif;
+      font-size:.7rem; letter-spacing:2px;
+      color:var(--fire-orange); text-transform:uppercase; margin-bottom:8px;
+    }
+    .rule-title {
+      font-family:'Rajdhani',sans-serif;
+      font-size:1.05rem; font-weight:700;
+      color:var(--text-light); margin-bottom:6px;
+    }
+    .rule-desc { font-family:'Rajdhani',sans-serif; font-size:.9rem; color:#777; line-height:1.6; }
+    .last-updated {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.78rem; letter-spacing:1.5px;
+      color:#444; text-transform:uppercase; margin-bottom:24px;
+    }
+    .disclaimer-box {
+      border:1px solid rgba(255,179,0,.2);
+      background:rgba(255,179,0,.03);
+      padding:18px 22px; margin-top:32px;
+    }
+    .disclaimer-box p {
+      font-family:'Rajdhani',sans-serif;
+      font-size:.85rem; color:#555; line-height:1.7; margin:0;
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Page Content Bar -->
   <div class="page-content-bar">
     <div class="page-breadcrumb"><a href="../index.html" style="color:inherit;text-decoration:none;">Home</a> <span>›</span></div>
     <div class="page-title-bar">Privacy Policy</div>
   </div>
-
-  <!-- Inner Page Content -->
   <div class="inner-page">
     <div class="inner-page-title">🔒 Privacy Policy</div>
-    <div class="inner-page-sub">Hamari Privacy Policy — EdmFire</div>
     <div class="inner-divider"></div>
-    <div class="coming-soon-box">
-      <span class="coming-soon-icon">🔧</span>
-      <div class="coming-soon-text">Content Coming Soon — Jald Hi Update Hoga</div>
+    <div class="ip-content">
+
+      <div class="last-updated">🗓️ Last Updated: March 12, 2026</div>
+
+      <h2>1. Introduction</h2>
+      <p>Welcome to EdmFire, operated by EDMFire Technologies. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and related services.</p>
+      <p>EdmFire is an online gaming tournament platform designed for entertainment purposes where users participate in tournaments using virtual coins within the application.</p>
+      <div class="highlight-box"><p>⚠️ By accessing or using the EdmFire application, you agree to the terms described in this Privacy Policy.</p></div>
+
+      <h2>2. Information We Collect</h2>
+      <p>We collect limited information from users to operate the application securely and effectively.</p>
+      <h3>Account Information</h3>
+      <ul>
+        <li>Email address</li>
+        <li>Username or nickname</li>
+        <li>Password (handled securely via Firebase Authentication)</li>
+      </ul>
+      <h3>Game Verification Information</h3>
+      <p>Users verify their Free Fire Max Game UID inside the app to participate in tournaments.</p>
+      <h3>Device Information</h3>
+      <ul><li>Android Device ID (for security and fraud prevention)</li></ul>
+      <h3>Notification Information</h3>
+      <ul><li>Firebase Cloud Messaging (FCM) token for sending notifications</li></ul>
+      <h3>Analytics Data</h3>
+      <ul><li>Anonymous usage statistics via Firebase services</li></ul>
+
+      <h2>3. Information We Do NOT Collect</h2>
+      <ul>
+        <li>Government identification documents</li>
+        <li>Bank account details</li>
+        <li>Credit card information</li>
+      </ul>
+
+      <h2>4. How We Use Information</h2>
+      <ul>
+        <li>Account creation and management</li>
+        <li>Game UID verification</li>
+        <li>Prevent fraud and multiple accounts</li>
+        <li>Manage tournaments</li>
+        <li>Send notifications</li>
+        <li>Improve app performance</li>
+      </ul>
+
+      <h2>5. Wallet and Virtual Coins</h2>
+      <p>EdmFire uses a virtual coin system. Users may purchase coins using UPI methods such as PhonePe, Paytm or other UPI-enabled apps.</p>
+      <div class="highlight-box"><p>⚠️ EdmFire is not a real-money gambling application. The platform is designed for entertainment purposes only.</p></div>
+
+      <h2>6. Third-Party Services</h2>
+      <ul>
+        <li>Firebase Authentication</li>
+        <li>Firebase Firestore</li>
+        <li>Firebase Cloud Messaging</li>
+        <li>Firebase Remote Config</li>
+        <li>Google Play Services</li>
+      </ul>
+
+      <h2>7. Push Notifications</h2>
+      <p>Users may receive notifications for tournament reminders, results, promotions, and updates.</p>
+
+      <h2>8. Age Requirement</h2>
+      <p>Users must be at least 13 years old to use the EdmFire platform.</p>
+
+      <h2>9. Multiple Account Policy</h2>
+      <p>Only one account per device and per user is allowed.</p>
+
+      <h2>10. Disclaimer</h2>
+      <div class="disclaimer-box"><p>EdmFire is not affiliated with, endorsed by, or sponsored by Garena Free Fire or Garena International.</p></div>
+
+      <h2>11. Contact</h2>
+      <div class="contact-card">
+        <div class="c-card"><span class="c-icon">📧</span><div class="c-label">Support Email</div><div class="c-value"><a href="mailto:edmfiresupport@gmail.com">edmfiresupport@gmail.com</a></div></div>
+        <div class="c-card"><span class="c-icon">💬</span><div class="c-label">WhatsApp</div><div class="c-value"><a href="https://wa.me/919244749305">+91 9244749305</a></div></div>
+        <div class="c-card"><span class="c-icon">🌐</span><div class="c-label">Website</div><div class="c-value"><a href="https://edmfire.in">edmfire.in</a></div></div>
+      </div>
+
     </div>
   </div>
 
   <script src="../js/components.js"></script>
-  <script>
-    injectNavbar(false);
-    injectFooter(false);
-  </script>
+  <script>injectNavbar(false); injectFooter(false);</script>
   <script src="../js/main.js"></script>
+
 </body>
 </html>
