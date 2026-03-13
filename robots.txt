@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block unwanted bots from unnecessary paths
+Disallow: /cdn-cgi/
+
+# Sitemap location
+Sitemap: https://edmfire.in/sitemap.xml
