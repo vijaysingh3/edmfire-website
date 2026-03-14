@@ -2,7 +2,7 @@
 //  EdmFire — Shared Components
 // ═══════════════════════════════════
 
-const APK_LINK = "https://github.com/vijaysingh3/EdmFire__apk/raw/refs/heads/main/EdmFire-v1.0-release.apk";
+const APK_LINK = "https://github.com/vijaysingh3/edmfire-apk/releases/download/user-apk/EdmFire-v1.0-release.apk";
 
 // ── NAV LINKS — Yahan naye links add karo ──
 const NAV_LINKS = [
@@ -30,17 +30,17 @@ const SOCIAL_LINKS = [
   {
     label: "Instagram",
     icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>`,
-    href: "https://instagram.com/edmfire",   // ← apna Instagram link yahan
+    href: "Insta=https://www.instagram.com/edmfireapp?igsh=YmNkcTFwMmpjYnF4",   // ← apna Instagram link yahan
   },
   {
     label: "YouTube",
     icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>`,
-    href: "https://youtube.com/@edmfire",    // ← apna YouTube link yahan
+    href: "https://youtube.com/@edmfireapp?si=BC29jJzVgmBYXmol",    // ← apna YouTube link yahan
   },
   {
     label: "WhatsApp Channel",
     icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>`,
-    href: "https://whatsapp.com/channel/edmfire", // ← apna WhatsApp channel link yahan
+    href: "https://whatsapp.com/channel/0029VbCKKn7GufImyI6Bkx11", // ← apna WhatsApp channel link yahan
   },
   // ── Naya social link add karna ho to neeche copy karo ──
   // {
