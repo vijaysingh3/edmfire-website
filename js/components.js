@@ -30,12 +30,12 @@ const SOCIAL_LINKS = [
   {
     label: "Instagram",
     icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>`,
-    href: "Insta=https://www.instagram.com/edmfireapp?igsh=YmNkcTFwMmpjYnF4",   // ← apna Instagram link yahan
+    href: "https://www.instagram.com/edmfireapp?igsh=YmNkcTFwMmpjYnF4",   // ← apna Instagram link yahan
   },
   {
     label: "YouTube",
     icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>`,
-    href: "https://www.youtube.com/watch?v=otwAqhm3Dlc",    // ← apna YouTube link yahan
+    href: "www.youtube.com/@edmfireapp",    // ← apna YouTube link yahan
   },
   {
     label: "WhatsApp Channel",
