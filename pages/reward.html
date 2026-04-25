@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Earn Free Coins — EdmFire</title>
+  <meta name="description" content="EdmFire Free Coins Reward — Earn 100 Bonus Coins Free!"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    /* ── Reward Page Specific Styles ── */
+    .reward-wrapper {
+      min-height: 100vh;
+      padding: calc(var(--nav-height) + 50px) 5% 80px;
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Hero coin banner */
+    .reward-hero {
+      text-align: center;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+    .reward-coin-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 14px;
+      animation: coinBounce 1.6s ease-in-out infinite;
+    }
+    @keyframes coinBounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50%       { transform: translateY(-12px) rotate(5deg); }
+    }
+    .reward-hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .reward-hero-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .97rem;
+      color: #888;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Steps card */
+    .reward-steps-card {
+      width: 100%;
+      border: 1px solid var(--dark-border);
+      background: var(--dark-card);
+      padding: 28px 24px;
+      margin-bottom: 32px;
+    }
+    .reward-steps-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--fire-orange);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .reward-step-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .reward-step-row:last-child { border-bottom: none; }
+    .rsr-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: rgba(255,106,0,.3);
+      min-width: 28px;
+      line-height: 1.3;
+    }
+    .rsr-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .93rem;
+      color: #888;
+      line-height: 1.6;
+    }
+    .rsr-text strong { color: #ccc; }
+
+    /* Main CTA button */
+    .reward-cta-wrap {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* Watch Ad button — fire style */
+    .btn-watch-ad {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 18px 44px;
+      background: linear-gradient(135deg, #00a86b, #00d188);
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: filter .3s, transform .3s, box-shadow .3s;
+      text-decoration: none;
+    }
+    .btn-watch-ad::before {
+      content: '';
+      position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
+      background: rgba(255,255,255,.18);
+      transform: skewX(-20deg);
+      animation: shimmer 2.5s infinite;
+    }
+    @keyframes shimmer { 0%{left:-60%} 100%{left:130%} }
+    .btn-watch-ad:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 36px rgba(0,209,136,.45);
+      transform: translateY(-3px);
+    }
+    .btn-watch-ad:disabled,
+    .btn-watch-ad.loading {
+      opacity: .6;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    /* Status text below button */
+    .reward-status {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .82rem;
+      letter-spacing: 1.5px;
+      color: #555;
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+    .reward-status.active { color: var(--fire-orange); }
+    .reward-status.success { color: #00d188; }
+
+    /* Disclaimer */
+    .reward-disclaimer {
+      border: 1px solid rgba(255,179,0,.15);
+      background: rgba(255,179,0,.02);
+      padding: 16px 20px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .reward-disclaimer p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .82rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ══ POPUP OVERLAY ══ */
+    .reward-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 5000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .reward-popup-overlay.active { display: flex; }
+
+    .reward-popup {
+      background: var(--dark-card);
+      border: 1px solid rgba(255,106,0,.4);
+      box-shadow: 0 0 60px rgba(255,106,0,.25), 0 20px 60px rgba(0,0,0,.8);
+      max-width: 440px;
+      width: 100%;
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+      animation: popIn .4s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.7) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Confetti top bar */
+    .popup-confetti {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--fire-red), var(--fire-orange), var(--fire-yellow),
+        #00d188, #00a8ff, var(--fire-orange), var(--fire-red));
+      background-size: 300% 100%;
+      animation: rainbowSlide 2s linear infinite;
+    }
+    @keyframes rainbowSlide {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    .popup-trophy { font-size: 3.5rem; display: block; margin-bottom: 14px; animation: trophySpin 1s ease both; }
+    @keyframes trophySpin {
+      from { transform: rotate(-20deg) scale(.5); opacity: 0; }
+      to   { transform: rotate(0) scale(1); opacity: 1; }
+    }
+
+    .popup-congrats {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--fire-yellow);
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .popup-coins-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--fire-orange), var(--fire-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .popup-desc {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .95rem;
+      color: #888;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .popup-desc a {
+      color: var(--fire-orange);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .popup-desc a:hover { text-decoration: underline; }
+
+    /* Promo code box */
+    .popup-promo-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .72rem;
+      letter-spacing: 3px;
+      color: var(--fire-orange);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .popup-promo-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px dashed rgba(255,106,0,.5);
+      background: rgba(255,106,0,.06);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+    }
+    .popup-promo-code {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--fire-yellow);
+      letter-spacing: 3px;
+    }
+    .btn-copy-code {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(255,106,0,.3);
+      border: 1px solid rgba(255,106,0,.5);
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background .25s, border-color .25s;
+      white-space: nowrap;
+    }
+    .btn-copy-code:hover { background: rgba(255,106,0,.5); border-color: var(--fire-orange); }
+    .btn-copy-code.copied { background: rgba(0,209,136,.25); border-color: #00d188; color: #00d188; }
+
+    /* Download CTA in popup */
+    .popup-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--fire-red), var(--fire-orange));
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      text-decoration: none;
+      transition: filter .3s, transform .3s;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .popup-download-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+    .popup-close-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #444;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      transition: color .25s;
+    }
+    .popup-close-btn:hover { color: #777; }
+
+    /* Spinner */
+    .ad-spinner {
+      display: none;
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Already claimed banner */
+    .claimed-banner {
+      display: none;
+      width: 100%;
+      border: 1px solid rgba(0,209,136,.3);
+      background: rgba(0,209,136,.05);
+      padding: 18px 22px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .claimed-banner p {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .92rem;
+      color: #00d188;
+      margin: 0;
+    }
+
+    @media (max-width: 500px) {
+      .reward-popup { padding: 28px 20px; }
+      .popup-coins-text { font-size: 1.4rem; }
+      .btn-watch-ad { padding: 15px 28px; font-size: 1rem; clip-path: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-content-bar">
+    <div class="page-breadcrumb">
+      <a href="../index.html" style="color:inherit;text-decoration:none;">Home</a>
+      <span>›</span>
+    </div>
+    <div class="page-title-bar">Free Coins Reward</div>
+  </div>
+
+  <!-- ══ REWARD POPUP ══ -->
+  <div class="reward-popup-overlay" id="rewardPopup">
+    <div class="reward-popup">
+      <div class="popup-confetti"></div>
+      <span class="popup-trophy">🏆</span>
+      <div class="popup-congrats">Congratulations!</div>
+      <div class="popup-coins-text">+100 Bonus Coins</div>
+      <p class="popup-desc">
+        You earned <strong style="color:var(--fire-yellow);">100 FREE Bonus Coins!</strong><br/>
+        Download <a href="https://edmfire.in" target="_blank">edmfire.in</a> app to redeem your coins using the promo code below.
+      </p>
+      <div class="popup-promo-label">🎁 Your Promo Code</div>
+      <div class="popup-promo-box">
+        <span class="popup-promo-code" id="promoCodeText">EDMFIRE100</span>
+        <button class="btn-copy-code" id="copyCodeBtn" onclick="copyPromoCode()">Copy</button>
+      </div>
+      <a class="popup-download-btn"
+         href="https://github.com/vijaysingh3/edmfire-apk/releases/download/version2.2/EdmFire-v2.2-release.apk"
+         download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M12 3v13M5 14l7 7 7-7"/><path d="M3 21h18"/></svg>
+        Download EdmFire Now
+      </a>
+      <button class="popup-close-btn" onclick="closeRewardPopup()">✕ Close</button>
+    </div>
+  </div>
+
+  <!-- ══ MAIN REWARD PAGE ══ -->
+  <div class="reward-wrapper">
+
+    <div class="reward-hero reveal">
+      <span class="reward-coin-icon">🪙</span>
+      <div class="reward-hero-title">Earn FREE 100 Coins!</div>
+      <p class="reward-hero-sub">Ek simple step follow karo aur paao 100 free bonus coins — EdmFire tournaments mein use karo bilkul free!</p>
+    </div>
+
+    <!-- Already claimed check banner -->
+    <div class="claimed-banner" id="claimedBanner">
+      <p>✅ Tumne pehle hi reward claim kar liya hai! Promo code: <strong>EDMYTEEJ</strong> — Download karo aur use karo.</p>
+    </div>
+
+    <!-- How it works -->
+    <div class="reward-steps-card reveal">
+      <div class="reward-steps-title">📋 Kaise milega reward?</div>
+      <div class="reward-step-row">
+        <div class="rsr-num">01</div>
+        <div class="rsr-text"><strong>Neeche button click karo</strong> — "Watch Ad &amp; Earn Coins"</div>
+      </div>
+      <div class="reward-step-row">
+        <div class="rsr-num">02</div>
+        <div class="rsr-text"><strong>Ad poora dekho</strong> — Jab tak ad load/show na ho wait karo</div>
+      </div>
+      <div class="reward-step-row">
+        <div class="rsr-num">03</div>
+        <div class="rsr-text"><strong>Promo code milega</strong> — 100 coins ka promo code copy karo</div>
+      </div>
+      <div class="reward-step-row">
+        <div class="rsr-num">04</div>
+        <div class="rsr-text"><strong>App download karo</strong> — Promo code app mein redeem karo!</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="reward-cta-wrap reveal">
+      <button class="btn-watch-ad" id="watchAdBtn" onclick="startAdFlow()">
+        <div class="ad-spinner" id="adSpinner"></div>
+        <span id="adBtnIcon">🎬</span>
+        <span id="adBtnText">Watch Ad &amp; Earn 100 Coins</span>
+      </button>
+      <div class="reward-status" id="rewardStatus">Click karo — Ad dekhne ke baad coins milenge</div>
+    </div>
+
+    <div class="reward-disclaimer reveal">
+      <p>⚠️ Reward sirf ek baar claim kiya ja sakta hai per device. Ad dekhne ke baad hi promo code milega. EdmFire entertainment platform hai — virtual coins only.</p>
+    </div>
+
+  </div>
+
+  <script src="../js/components.js"></script>
+  <script>injectNavbar(false); injectFooter(false);</script>
+  <script src="../js/main.js"></script>
+
+  <script>
+  // ══════════════════════════════════════════
+  //  REWARD PAGE — Ad Track + Promo System
+  // ══════════════════════════════════════════
+
+  // Promo code — yahan change karo agar alag code chahiye
+  const PROMO_CODE = "EDMYTEEJ";
+
+  // Ad links — ek ek karke try karega jab tak ad show na ho
+  const AD_LINKS = [
+    "https://omg10.com/4/10925216",
+    "https://omg10.com/4/10925178",
+    "https://omg10.com/4/10925255"
+  ];
+
+  // LocalStorage key for tracking
+  const CLAIMED_KEY = "edmfire_reward_claimed";
+  const TRIED_KEY   = "edmfire_ad_tried";
+
+  // ── Page load pe check karo ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const alreadyClaimed = localStorage.getItem(CLAIMED_KEY);
+    if (alreadyClaimed === "true") {
+      document.getElementById('claimedBanner').style.display = 'block';
+      const btn = document.getElementById('watchAdBtn');
+      btn.disabled = true;
+      btn.style.opacity = '.4';
+      document.getElementById('rewardStatus').textContent = "Reward already claimed!";
+      document.getElementById('rewardStatus').classList.add('success');
+    }
+  });
+
+  // ── Visibility change track karo (user wapas aaya = ad dekha) ──
+  let adWindowOpened = false;
+  let adFlowTriedIndex = 0;
+
+  document.addEventListener('visibilitychange', () => {
+    // Jab user wapas aaye ad tab se
+    if (!document.hidden && adWindowOpened) {
+      adWindowOpened = false;
+      onAdViewed();
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    if (adWindowOpened) {
+      adWindowOpened = false;
+      onAdViewed();
+    }
+  });
+
+  // ── Start ad flow ──
+  function startAdFlow() {
+    const btn     = document.getElementById('watchAdBtn');
+    const spinner = document.getElementById('adSpinner');
+    const icon    = document.getElementById('adBtnIcon');
+    const status  = document.getElementById('rewardStatus');
+
+    // Loading state
+    btn.classList.add('loading');
+    spinner.style.display = 'block';
+    icon.style.display = 'none';
+    document.getElementById('adBtnText').textContent = 'Opening Ad...';
+    status.textContent  = '⏳ Ad khul raha hai — wait karo...';
+    status.className    = 'reward-status active';
+
+    // Ad link try karo
+    const adUrl = AD_LINKS[adFlowTriedIndex % AD_LINKS.length];
+    adFlowTriedIndex++;
+
+    // Small delay fir open
+    setTimeout(() => {
+      adWindowOpened = true;
+      // localStorage mein mark karo ki ad try kiya
+      localStorage.setItem(TRIED_KEY, "true");
+
+      // Ad window open
+      const adWin = window.open(adUrl, '_blank', 'noopener');
+
+      // Agar popup blocked ho to same tab mein try
+      if (!adWin || adWin.closed || typeof adWin.closed === 'undefined') {
+        window.location.href = adUrl;
+      }
+
+      // Button update
+      btn.classList.remove('loading');
+      spinner.style.display = 'none';
+      icon.style.display = 'inline';
+      document.getElementById('adBtnText').textContent = 'Watching Ad... Come Back!';
+      status.textContent = '👀 Ad dekho phir wapas aao — reward milega!';
+
+    }, 800);
+  }
+
+  // ── Ad dekh ke wapas aane par ──
+  function onAdViewed() {
+    const status = document.getElementById('rewardStatus');
+    const btn    = document.getElementById('watchAdBtn');
+
+    // Reward unlocked!
+    status.textContent = '✅ Ad dekha — Reward unlock ho gaya!';
+    status.className   = 'reward-status success';
+
+    // Mark as claimed
+    localStorage.setItem(CLAIMED_KEY, "true");
+
+    // Disable button
+    btn.disabled = true;
+    btn.style.opacity = '.4';
+    document.getElementById('adBtnText').textContent = 'Reward Claimed!';
+    document.getElementById('adBtnIcon').textContent = '✅';
+
+    // Short delay fir popup show karo
+    setTimeout(() => {
+      showRewardPopup();
+    }, 600);
+  }
+
+  // ── Popup show karo ──
+  function showRewardPopup() {
+    document.getElementById('rewardPopup').classList.add('active');
+  }
+
+  // ── Popup close ──
+  function closeRewardPopup() {
+    document.getElementById('rewardPopup').classList.remove('active');
+    // Claimed banner show karo
+    document.getElementById('claimedBanner').style.display = 'block';
+  }
+
+  // ── Promo code copy ──
+  function copyPromoCode() {
+    const code = PROMO_CODE;
+    const btn  = document.getElementById('copyCodeBtn');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied ✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2500);
+      });
+    } else {
+      // Fallback
+      const el = document.createElement('textarea');
+      el.value = code;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
+  }
+
+  // ── Overlay click se close ──
+  document.getElementById('rewardPopup').addEventListener('click', function(e) {
+    if (e.target === this) closeRewardPopup();
+  });
+  </script>
+
+</body>
+</html>
