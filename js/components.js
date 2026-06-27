@@ -2,7 +2,7 @@
 //  EdmFire — Shared Components
 // ═══════════════════════════════════
 
-const APK_LINK = "https://github.com/vijaysingh3/edmfire-user-apk/releases/download/v3.5/EdmFire-v3.5-release.apk";
+const APK_LINK = "https://github.com/vijaysingh3/edmfire-user-apk/releases/download/v3.5/EdmFire-v3.5-release.apk"; 
 
 // ── NAV LINKS — Yahan naye links add karo ──
 const NAV_LINKS = [
